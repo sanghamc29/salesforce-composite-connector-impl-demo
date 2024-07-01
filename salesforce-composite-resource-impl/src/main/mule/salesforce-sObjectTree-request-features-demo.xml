@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce-composite="http://www.mulesoft.org/schema/mule/salesforce-composite" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce-composite http://www.mulesoft.org/schema/mule/salesforce-composite/current/mule-salesforce-composite.xsd">
+	<http:listener-config name="HTTP_Listener_config_sObjectTree_demo" doc:name="HTTP Listener config" doc:id="13991e96-2e5a-492e-8311-431ed61822a7" >
+		<http:listener-connection host="0.0.0.0" port="8089" />
+	</http:listener-config>
+	<flow name="salesforce-sObject-treeFlow" doc:id="d53f9877-886d-4683-b190-7b169d613ce1" >
+		<http:listener doc:name="Listener" doc:id="b73ce016-c64b-443f-bdcd-6c953c0dcf6e" config-ref="HTTP_Listener_config_sObjectTree_demo" path="/api/sObjectTree">
+			<http:error-response statusCode="#[vars.httpStatus]">
+				<http:body ><![CDATA[#[output text/json --- payload]]]></http:body>
+			</http:error-response>
+		</http:listener>
+		<!-- [STUDIO:"Dummy Payload"]<ee:transform doc:name="Dummy Payload" doc:id="10eb55fc-701c-4a7f-a516-1b637ac76d11" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[{
+  "records": [
+    {
+      "attributes": {
+        "objectType": "Account",
+        "referenceId": "ref1"
+      },
+      "Name": "Salesforce.com",
+      "Phone": "1234567890",
+      "Website": "www.salesforce.com",
+      "NumberOfEmployees": "100",
+      "Industry": "Banking",
+      "Contacts": {
+        "records": [
+          {
+            "attributes": {
+              "objectType": "Contact",
+              "referenceId": "ref2"
+            },
+            "LastName": "Smith",
+            "Title": "President",
+            "Email": "sample@salesforce.com"
+          },
+          {
+            "attributes": {
+              "objectType": "Contact",
+              "referenceId": "ref3"
+            },
+            "LastName": "Evans",
+            "Title": "Vice President",
+            "Email": "sample@salesforce.com"
+          }
+        &#93;
+      }
+    }
+  &#93;
+}&#93;&#93;></ee:set-payload>
+			</ee:message>
+		</ee:transform> [STUDIO] -->
+		<ee:transform doc:name="Mapping" doc:id="1e6f8885-82e7-44bc-bfa5-3cd598c88be2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload.records map ((record , indexOfRecord) -> {
+	"attributes": {
+		"type": record.attributes.objectType,
+		"referenceId": record.attributes.referenceId
+	},
+	"Name": record.Name,
+	"Phone": record.Phone,
+	"Website": record.Website,
+	"NumberOfEmployees": record.NumberOfEmployees as Number,
+	("ChildAccounts": {
+		"records": record.ChildAccounts.records map ((record01, indexOfRecord01) -> {
+			"attributes": {
+				"type": record01.attributes.objectType,
+				"referenceId": record01.attributes.referenceId
+			},
+			"Name": record01.Name,
+			"Phone": record01.Phone,
+			"Website": record01.Website,
+			"NumberOfEmployees": record01.NumberOfEmployees as Number
+		})
+	}),
+	"Contacts": {
+		"records": record.Contacts.records map ((record01, indexOfRecord01) -> {
+			"attributes": {
+				"type": record01.attributes.objectType,
+				"referenceId": record01.attributes.referenceId
+			},
+			"LastName": record01.LastName,
+			"FirstName": record01.FirstName default "Sanchit" as String,
+			"Email": record01.Email,
+			"Title": record01.Title
+		})
+	}
+})]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce-composite:create-sobject-tree doc:name="Create sobject tree" doc:id="5beaf634-6353-4969-bcce-181f5d68472c" type="Account" config-ref="Salesforce_Composite_Config_demo1"/>
+		<ee:transform doc:name="Response payload" doc:id="cbdd77ab-a26f-4e35-b478-fba4715944e3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+			</ee:variables>
+		</ee:transform>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="70e47057-5ee2-415a-b0cd-b2748e74116c" type="SALESFORCE-COMPOSITE:TRANSFORMATION, SALESFORCE-COMPOSITE:UNKNOWN, SALESFORCE-COMPOSITE:VALIDATION" >
+				<ee:transform doc:name="error-from-composite-execution-request" doc:id="528d2249-a5c0-451f-838d-2a5fd2044746" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	errorType: error.errorType.asString,
+	hasErrors: false,
+	errors: error.detailedDescription
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[400]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="c9df1ff7-deaf-4971-9e5f-b756cac7b7b2" type="SALESFORCE-COMPOSITE:CONNECTIVITY, SALESFORCE-COMPOSITE:INVALID_SESSION, SALESFORCE-COMPOSITE:RETRY_EXHAUSTED">
+				<ee:transform doc:name="handle connectivity error" doc:id="47e2f182-5fc0-4e13-847d-1b299fe7479c" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	errorType: error.errorType.asString,
+	hasErrors: false,
+	errors: error.detailedDescription
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+500]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>

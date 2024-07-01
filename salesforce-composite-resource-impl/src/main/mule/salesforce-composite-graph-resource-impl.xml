@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce-composite="http://www.mulesoft.org/schema/mule/salesforce-composite" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce-composite http://www.mulesoft.org/schema/mule/salesforce-composite/current/mule-salesforce-composite.xsd">
+	<salesforce-composite:composite-config name="Salesforce_Composite_Graph-Config" doc:name="Salesforce Composite Config" doc:id="62782360-1152-40d1-a7cf-03e1bd3f45b9" >
+		<salesforce-composite:oauth-user-pass-connection consumerKey="${sfdc.consumer.key}" consumerSecret="${sfdc.consumer.secret}" username="${sfdc.username}" password="${sfdc.password}" securityToken="${sfdc.security.token}" tokenEndpoint="${sfdc.token.endpoint}" />
+	</salesforce-composite:composite-config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8b36c966-eb05-43fa-aca7-7bcaf96a4afa" >
+		<http:listener-connection host="0.0.0.0" port="8096" />
+	</http:listener-config>
+	<flow name="salesforce-composite-graph-request-features-demoFlow" doc:id="8bebf8c2-3dd6-439c-87f6-93e19836857c" >
+		<http:listener doc:name="Listener" doc:id="fc80c8bf-ebf6-49a6-ac26-3a3762ec2f15" config-ref="HTTP_Listener_config" path="/demo/compositeGraphReq"/>
+<logger level="INFO" doc:name="log-composite-graph-request" doc:id="e9e2212c-269f-400a-9e89-6f4e3040747b" message="#[payload]"/>
+		<set-variable value="#[attributes.queryParams.allOrNoneFlagForGraph]" doc:name="get-allOrNoneFlag-graphRequest" doc:id="d3a7dc96-dcef-44a0-abbb-397b1fe4ca47" variableName="varCompositeGraphAllOrNoneFlag"/>
+		<ee:transform doc:name="prepare-composite graph-request" doc:id="a9aae8ab-6bcf-4f75-b81f-5bf082a5dbbe" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="compositeRequest" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	"allOrNone": vars.varCompositeGraphAllOrNoneFlag default true,
+	"graphs": payload.brokers map ((broker, indexOfBroker) ->
+		
+		 {
+		"graphId": indexOfBroker + 1,
+		
+		"compositeRequest": [{
+			"url": "/services/data/v58.0/sobjects/Account_841651__c",
+			"body": {
+				"name": broker.name,
+				"ShippingCity__c": broker.address.city default "",
+				"shipAddrState__c": broker.address.state default "",
+				"shipAddrCountry__c": broker.address.country default "",
+				"Company_email_c__c": broker.email,
+				"phone__c": broker.phone,
+				"customExtIdField_c__c" : "accExtId"++ broker.brokerId,
+				"Contact_841651__c" : broker.contactId,
+				"BR_ID__c": broker.brokerId
+				
+			},
+			"method": "POST",
+			"referenceId": "reference_id_broker_" ++ (indexOfBroker + 1) as String
+		}]
+		
+	
+ 
+	})
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<salesforce-composite:execute-composite-graph doc:name="Execute composite graph" doc:id="ca4b4bbf-77a4-461d-9663-5ec84d072f70" config-ref="Salesforce_Composite_Graph-Config">
+			<salesforce-composite:graphs ><![CDATA[#[vars.compositeRequest.graphs]]]></salesforce-composite:graphs>
+		</salesforce-composite:execute-composite-graph>
+		<ee:transform doc:name="sfdc-composite-response" doc:id="e00c3c79-c3a4-4b53-b5be-2848c3204abf" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

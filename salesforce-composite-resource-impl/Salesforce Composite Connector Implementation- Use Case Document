@@ -1,0 +1,29 @@
+Salesforce Composite Request Usecases:
+
+1. The Implementation Use Case 1 Highlights-->
+         a) User wants to create a Product in Salesforce Org,associate one or more Distribution Centre for the newly created Product.
+         b) Update Inventory with newly added Product and Distribution Centre Details .
+         c) Update Content Version Details for each Product.
+         d) Same set of Category and Collection of Product is treated as duplicate under same Product Brand ,the name of each distribution Centre has to be unique across the composite request.
+
+2. The Implementation Use Case 2 Highlights -->
+         a) Once a user wants to create an acocunt in Salesforce Org , it is mandatory to create and associate a contact with it .Without contact being created the account creation will not be successful .
+         c) One user account can be associated with multiple contacts and same contact can be reused across multiple accounts.
+         d) Once the user creates the Account with one contact details , there can be scenarios where they want to update any of the details within the contact (homeaddress/email/phone), once this update request is received , all the associated accounts with this 
+          contact needs to be updated with new request value.
+
+
+Salesforce Composite  Graph Request Usecases:
+
+1. The Implementation Use Case 2 Highlights -->
+         a) Once a user wants to create an acocunt in Salesforce Org , it is mandatory to create and associate a contact with it .Without contact being created the account creation will not be successful .
+         c) One user account can be associated with multiple contacts and same contact can be reused across multiple accounts.
+         d) Once the user creates the Account with one contact details , there can be scenarios where they want to update any of the details within the contact (homeaddress/email/phone), once this update request is received , all the associated accounts with this 
+          contact needs to be updated with new request value.
+
+
+Salesforce composite batch request Usecases - 
+1. Insert or Update (Upsert) a Record Using an External ID (serialNumber__c) for Quote__c (using the sObject Rows by External ID resource)
+2. Create a QueryAll request for all the created Quote__c objects
+3. Gets a record based on the specified object Quote__c and record ID
+4. Search for a specific Quote__c record based on a Quote__c serialNumber__c.

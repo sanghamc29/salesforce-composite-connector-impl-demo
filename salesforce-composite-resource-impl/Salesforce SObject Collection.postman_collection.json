@@ -1,0 +1,1004 @@
+{
+	"info": {
+		"_postman_id": "eef3b3a2-1bd2-4c9f-9447-43be153a5683",
+		"name": "Salesforce SObject Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33479843"
+	},
+	"item": [
+		{
+			"name": "sObejct-Collection-Get",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[]"
+				},
+				"url": {
+					"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=GET&entityType=Account&ids=001J1000003FDhoIAG,001J1000003FDnhIAG,001J1000003FDniIAG&fields=Name,BillingCity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"api",
+						"sObjectCollection"
+					],
+					"query": [
+						{
+							"key": "compositeMethod",
+							"value": "GET"
+						},
+						{
+							"key": "allOrNoneFlag",
+							"value": "false",
+							"disabled": true
+						},
+						{
+							"key": "entityType",
+							"value": "Account"
+						},
+						{
+							"key": "ids",
+							"value": "001J1000003FDhoIAG,001J1000003FDnhIAG,001J1000003FDniIAG"
+						},
+						{
+							"key": "fields",
+							"value": "Name,BillingCity"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[]"
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=GET&entityType=Account&ids=001J1000003FDhoIAG&fields=Name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"sObjectCollection"
+							],
+							"query": [
+								{
+									"key": "compositeMethod",
+									"value": "GET"
+								},
+								{
+									"key": "allOrNoneFlag",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "entityType",
+									"value": "Account"
+								},
+								{
+									"key": "ids",
+									"value": "001J1000003FDhoIAG"
+								},
+								{
+									"key": "fields",
+									"value": "Name"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "211"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 25 Jun 2024 11:20:07 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"attributes\": {\n            \"type\": \"Account\",\n            \"url\": \"/services/data/v59.0/sobjects/Account/001J1000003FDhoIAG\"\n        },\n        \"Name\": \"test account - Alabama Upadte\",\n        \"Id\": \"001J1000003FDhoIAG\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "sObejct-Collection-Create [allOrNone=false]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Alabama\",\n        \"BillingCity\": \"Alabama\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Alaska\",\n        \"BillingCity\": \"Alaska\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Arizona\",\n        \"BillingCity\": \"Arizona\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Arkansas\",\n        \"BillingCity\": \"Arkansas\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Contact\"\n        },\n        \"LastName\": \"alabama\",\n        \"FirstName\": \"lastname\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Contact\"\n        },\n        \"LastName\": \"alaska\",\n        \"FirstName\": \"lastname\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Contact\"\n        },\n        \"LastName\": \"arizona\",\n        \"FirstName\": \"lastname\"\n    }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=CREATE&allOrNoneFlag=false&entityType=Account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"api",
+						"sObjectCollection"
+					],
+					"query": [
+						{
+							"key": "compositeMethod",
+							"value": "CREATE"
+						},
+						{
+							"key": "allOrNoneFlag",
+							"value": "false"
+						},
+						{
+							"key": "entityType",
+							"value": "Account"
+						},
+						{
+							"key": "ids",
+							"value": "0015g00000qBKceAAG",
+							"disabled": true
+						},
+						{
+							"key": "fields",
+							"value": "Name",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Alabama\",\n        \"BillingCity\": \"Alabama\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Alaska\",\n        \"BillingCity\": \"Alaska\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Arizona\",\n        \"BillingCity\": \"Arizona\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Arkansas\",\n        \"BillingCity\": \"Arkansas\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Contact\"\n        },\n        \"LastName\": \"alabama\",\n        \"FirstName\": \"lastname\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Contact\"\n        },\n        \"LastName\": \"alaska\",\n        \"FirstName\": \"lastname\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Contact\"\n        },\n        \"LastName\": \"arizona\",\n        \"FirstName\": \"lastname\"\n    }\n]"
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=CREATE&allOrNoneFlag=false&entityType=Account",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"sObjectCollection"
+							],
+							"query": [
+								{
+									"key": "compositeMethod",
+									"value": "CREATE"
+								},
+								{
+									"key": "allOrNoneFlag",
+									"value": "false"
+								},
+								{
+									"key": "entityType",
+									"value": "Account"
+								},
+								{
+									"key": "ids",
+									"value": "0015g00000qBKceAAG",
+									"disabled": true
+								},
+								{
+									"key": "fields",
+									"value": "Name",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "639"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 25 Jun 2024 11:10:13 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"001J1000003FDhoIAG\",\n        \"success\": true,\n        \"errors\": []\n    },\n    {\n        \"id\": \"001J1000003FDhpIAG\",\n        \"success\": true,\n        \"errors\": []\n    },\n    {\n        \"id\": \"001J1000003FDhqIAG\",\n        \"success\": true,\n        \"errors\": []\n    },\n    {\n        \"id\": \"001J1000003FDhrIAG\",\n        \"success\": true,\n        \"errors\": []\n    },\n    {\n        \"id\": \"003J1000003HuLDIA0\",\n        \"success\": true,\n        \"errors\": []\n    },\n    {\n        \"id\": \"003J1000003HuLEIA0\",\n        \"success\": true,\n        \"errors\": []\n    },\n    {\n        \"id\": \"003J1000003HuLFIA0\",\n        \"success\": true,\n        \"errors\": []\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "sObejct-Collection-Create [allOrNone=true]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Florida\",\n        \"BillingCity\": \"Florida\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Georgia\",\n        \"BillingCity\": \"Georgia\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - ArkansasTest\",\n        \"BillingCity\": \"ArkansasTest---testtest\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Contact\"\n        },\n        \"LastName\": \"georgia\",\n        \"FirstName\": \"lastname\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Contact\"\n        },\n        \"LastName\": \"florida\",\n        \"FirstName\": \"lastname\"\n    }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=CREATE&allOrNoneFlag=true&entityType=Account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"api",
+						"sObjectCollection"
+					],
+					"query": [
+						{
+							"key": "compositeMethod",
+							"value": "CREATE"
+						},
+						{
+							"key": "allOrNoneFlag",
+							"value": "true"
+						},
+						{
+							"key": "entityType",
+							"value": "Account"
+						},
+						{
+							"key": "ids",
+							"value": "0015g00000qBKceAAG",
+							"disabled": true
+						},
+						{
+							"key": "fields",
+							"value": "Name",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Florida\",\n        \"BillingCity\": \"Florida\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Georgia\",\n        \"BillingCity\": \"Georgia\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - ArkansasTest\",\n        \"BillingCity\": \"ArkansasTest---testtest\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Contact\"\n        },\n        \"LastName\": \"georgia\",\n        \"FirstName\": \"lastname\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Contact\"\n        },\n        \"LastName\": \"florida\",\n        \"FirstName\": \"lastname\"\n    }\n]"
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=CREATE&allOrNoneFlag=true&entityType=Account",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"sObjectCollection"
+							],
+							"query": [
+								{
+									"key": "compositeMethod",
+									"value": "CREATE"
+								},
+								{
+									"key": "allOrNoneFlag",
+									"value": "true"
+								},
+								{
+									"key": "entityType",
+									"value": "Account"
+								},
+								{
+									"key": "ids",
+									"value": "0015g00000qBKceAAG",
+									"disabled": true
+								},
+								{
+									"key": "fields",
+									"value": "Name",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1175"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 25 Jun 2024 11:28:44 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errorType\": \"SF-COMPOSITE:ALL_OR_NONE_OPERATION_ROLLED_BACK\",\n    \"success\": false,\n    \"errors\": [\n        [\n            {\n                \"statusCode\": \"DUPLICATES_DETECTED\",\n                \"message\": \"Use one of these records?\",\n                \"fields\": []\n            }\n        ],\n        [\n            {\n                \"statusCode\": \"DUPLICATES_DETECTED\",\n                \"message\": \"Use one of these records?\",\n                \"fields\": []\n            }\n        ],\n        [\n            {\n                \"statusCode\": \"ALL_OR_NONE_OPERATION_ROLLED_BACK\",\n                \"message\": \"Record rolled back because not all records were valid and the request was using AllOrNone header\",\n                \"fields\": []\n            }\n        ],\n        [\n            {\n                \"statusCode\": \"ALL_OR_NONE_OPERATION_ROLLED_BACK\",\n                \"message\": \"Record rolled back because not all records were valid and the request was using AllOrNone header\",\n                \"fields\": []\n            }\n        ],\n        [\n            {\n                \"statusCode\": \"ALL_OR_NONE_OPERATION_ROLLED_BACK\",\n                \"message\": \"Record rolled back because not all records were valid and the request was using AllOrNone header\",\n                \"fields\": []\n            }\n        ]\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "sObejct-Collection-Upsert [allOrNone=false]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhoIAG\",\n        \"Name\": \"test account - Alabama Upadte\",\n        \"BillingCity\": \"Alabama\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhpIAG\",\n        \"Name\": \"test account - Alaska Upadte\",\n        \"BillingCity\": \"Alaska\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhqIAG\",\n        \"Name\": \"test account - Arizona Upadte\",\n        \"BillingCity\": \"Arizona\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhrIAG\",\n        \"Name\": \"test account - Arkansas Upadte\",\n        \"BillingCity\": \"Arkansas\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Colorado\",\n        \"BillingCity\": \"Colorado\"\n    }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=UPSERT&allOrNoneFlag=false&entityType=Account&externalFieldName=id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"api",
+						"sObjectCollection"
+					],
+					"query": [
+						{
+							"key": "compositeMethod",
+							"value": "UPSERT"
+						},
+						{
+							"key": "allOrNoneFlag",
+							"value": "false"
+						},
+						{
+							"key": "entityType",
+							"value": "Account"
+						},
+						{
+							"key": "ids",
+							"value": "0015g00000qBKceAAG",
+							"disabled": true
+						},
+						{
+							"key": "fields",
+							"value": "Name",
+							"disabled": true
+						},
+						{
+							"key": "externalFieldName",
+							"value": "id"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhoIAG\",\n        \"Name\": \"test account - Alabama Upadte\",\n        \"BillingCity\": \"Alabama\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhpIAG\",\n        \"Name\": \"test account - Alaska Upadte\",\n        \"BillingCity\": \"Alaska\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhqIAG\",\n        \"Name\": \"test account - Arizona Upadte\",\n        \"BillingCity\": \"Arizona\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhrIAG\",\n        \"Name\": \"test account - Arkansas Upadte\",\n        \"BillingCity\": \"Arkansas\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Colorado\",\n        \"BillingCity\": \"Colorado\"\n    }\n]"
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=UPSERT&allOrNoneFlag=false&entityType=Account&externalFieldName=id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"sObjectCollection"
+							],
+							"query": [
+								{
+									"key": "compositeMethod",
+									"value": "UPSERT"
+								},
+								{
+									"key": "allOrNoneFlag",
+									"value": "false"
+								},
+								{
+									"key": "entityType",
+									"value": "Account"
+								},
+								{
+									"key": "ids",
+									"value": "0015g00000qBKceAAG",
+									"disabled": true
+								},
+								{
+									"key": "fields",
+									"value": "Name",
+									"disabled": true
+								},
+								{
+									"key": "externalFieldName",
+									"value": "id"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "566"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 25 Jun 2024 11:16:57 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"001J1000003FDhoIAG\",\n        \"success\": true,\n        \"errors\": [],\n        \"created\": false\n    },\n    {\n        \"id\": \"001J1000003FDhpIAG\",\n        \"success\": true,\n        \"errors\": [],\n        \"created\": false\n    },\n    {\n        \"id\": \"001J1000003FDhqIAG\",\n        \"success\": true,\n        \"errors\": [],\n        \"created\": false\n    },\n    {\n        \"id\": \"001J1000003FDhrIAG\",\n        \"success\": true,\n        \"errors\": [],\n        \"created\": false\n    },\n    {\n        \"id\": \"001J1000003FDi8IAG\",\n        \"success\": true,\n        \"errors\": [],\n        \"created\": true\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "sObejct-Collection-Upsert [allOrNone=true]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Alabama Upadte\",\n        \"BillingCity\": \"Alabama\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhpIAG\",\n        \"Name\": \"test account - Alaska Upadte\",\n        \"BillingCity\": \"Alaska\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhqIAG\",\n        \"Name\": \"test account - Arizona Upadte\",\n        \"BillingCity\": \"Arizona\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhrIAG\",\n        \"Name\": \"test account - Arkansas Upadte\",\n        \"BillingCity\": \"Arkansas\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Colorado\",\n        \"BillingCity\": \"Colorado\"\n    }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=UPSERT&allOrNoneFlag=true&entityType=Account&externalFieldName=id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"api",
+						"sObjectCollection"
+					],
+					"query": [
+						{
+							"key": "compositeMethod",
+							"value": "UPSERT"
+						},
+						{
+							"key": "allOrNoneFlag",
+							"value": "true"
+						},
+						{
+							"key": "entityType",
+							"value": "Account"
+						},
+						{
+							"key": "ids",
+							"value": "0015g00000qBKceAAG",
+							"disabled": true
+						},
+						{
+							"key": "fields",
+							"value": "Name",
+							"disabled": true
+						},
+						{
+							"key": "externalFieldName",
+							"value": "id"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Alabama Upadte\",\n        \"BillingCity\": \"Alabama\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhpIAG\",\n        \"Name\": \"test account - Alaska Upadte\",\n        \"BillingCity\": \"Alaska\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhqIAG\",\n        \"Name\": \"test account - Arizona Upadte\",\n        \"BillingCity\": \"Arizona\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"id\": \"001J1000003FDhrIAG\",\n        \"Name\": \"test account - Arkansas Upadte\",\n        \"BillingCity\": \"Arkansas\"\n    },\n    {\n        \"attributes\": {\n            \"type\": \"Account\"\n        },\n        \"Name\": \"test account - Colorado\",\n        \"BillingCity\": \"Colorado\"\n    }\n]"
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=UPSERT&allOrNoneFlag=true&entityType=Account&externalFieldName=id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"sObjectCollection"
+							],
+							"query": [
+								{
+									"key": "compositeMethod",
+									"value": "UPSERT"
+								},
+								{
+									"key": "allOrNoneFlag",
+									"value": "true"
+								},
+								{
+									"key": "entityType",
+									"value": "Account"
+								},
+								{
+									"key": "ids",
+									"value": "0015g00000qBKceAAG",
+									"disabled": true
+								},
+								{
+									"key": "fields",
+									"value": "Name",
+									"disabled": true
+								},
+								{
+									"key": "externalFieldName",
+									"value": "id"
+								}
+							]
+						}
+					},
+					"status": "Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1175"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 25 Jun 2024 11:50:42 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errorType\": \"SF-COMPOSITE:ALL_OR_NONE_OPERATION_ROLLED_BACK\",\n    \"success\": false,\n    \"errors\": [\n        [\n            {\n                \"statusCode\": \"DUPLICATES_DETECTED\",\n                \"message\": \"Use one of these records?\",\n                \"fields\": []\n            }\n        ],\n        [\n            {\n                \"statusCode\": \"ALL_OR_NONE_OPERATION_ROLLED_BACK\",\n                \"message\": \"Record rolled back because not all records were valid and the request was using AllOrNone header\",\n                \"fields\": []\n            }\n        ],\n        [\n            {\n                \"statusCode\": \"ALL_OR_NONE_OPERATION_ROLLED_BACK\",\n                \"message\": \"Record rolled back because not all records were valid and the request was using AllOrNone header\",\n                \"fields\": []\n            }\n        ],\n        [\n            {\n                \"statusCode\": \"ALL_OR_NONE_OPERATION_ROLLED_BACK\",\n                \"message\": \"Record rolled back because not all records were valid and the request was using AllOrNone header\",\n                \"fields\": []\n            }\n        ],\n        [\n            {\n                \"statusCode\": \"DUPLICATES_DETECTED\",\n                \"message\": \"Use one of these records?\",\n                \"fields\": []\n            }\n        ]\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "sObejct-Collection-Delete [allOrNone=false]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[]"
+				},
+				"url": {
+					"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=DELETE&allOrNoneFlag=false&ids=001J1000003FD66IAG,001J1000003FD66IAGGGG",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"api",
+						"sObjectCollection"
+					],
+					"query": [
+						{
+							"key": "compositeMethod",
+							"value": "DELETE"
+						},
+						{
+							"key": "allOrNoneFlag",
+							"value": "false"
+						},
+						{
+							"key": "entityType",
+							"value": "Account",
+							"disabled": true
+						},
+						{
+							"key": "ids",
+							"value": "001J1000003FD66IAG,001J1000003FD66IAGGGG"
+						},
+						{
+							"key": "fields",
+							"value": "Name",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[]"
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=DELETE&ids=001J1000003FD66IAG",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"sObjectCollection"
+							],
+							"query": [
+								{
+									"key": "compositeMethod",
+									"value": "DELETE"
+								},
+								{
+									"key": "allOrNoneFlag",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "entityType",
+									"value": "Account",
+									"disabled": true
+								},
+								{
+									"key": "ids",
+									"value": "001J1000003FD66IAG"
+								},
+								{
+									"key": "fields",
+									"value": "Name",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "93"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 25 Jun 2024 09:16:41 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"001J1000003FD66IAG\",\n        \"success\": true,\n        \"errors\": []\n    }\n]"
+				},
+				{
+					"name": "Response - Mix",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[]"
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=DELETE&allOrNoneFlag=true&ids=001J1000003FD66IAG,001J1000003FD66IAGGGG",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"sObjectCollection"
+							],
+							"query": [
+								{
+									"key": "compositeMethod",
+									"value": "DELETE"
+								},
+								{
+									"key": "allOrNoneFlag",
+									"value": "true"
+								},
+								{
+									"key": "entityType",
+									"value": "Account",
+									"disabled": true
+								},
+								{
+									"key": "ids",
+									"value": "001J1000003FD66IAG,001J1000003FD66IAGGGG"
+								},
+								{
+									"key": "fields",
+									"value": "Name",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "426"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 25 Jun 2024 19:30:29 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"001J1000003FD66IAG\",\n        \"success\": false,\n        \"errors\": [\n            {\n                \"statusCode\": \"ENTITY_IS_DELETED\",\n                \"message\": \"entity is deleted\",\n                \"fields\": []\n            }\n        ]\n    },\n    {\n        \"success\": false,\n        \"errors\": [\n            {\n                \"statusCode\": \"MALFORMED_ID\",\n                \"message\": \"bad id 001J1000003FD66IAGGGG\",\n                \"fields\": []\n            }\n        ]\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "sObejct-Collection-Delete [allOrNone=true]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[]"
+				},
+				"url": {
+					"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=DELETE&allOrNoneFlag=true&ids=001J1000003FDniIAG,001J1000003FD66IAGGGG",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"api",
+						"sObjectCollection"
+					],
+					"query": [
+						{
+							"key": "compositeMethod",
+							"value": "DELETE"
+						},
+						{
+							"key": "allOrNoneFlag",
+							"value": "true"
+						},
+						{
+							"key": "entityType",
+							"value": "Account",
+							"disabled": true
+						},
+						{
+							"key": "ids",
+							"value": "001J1000003FDniIAG,001J1000003FD66IAGGGG"
+						},
+						{
+							"key": "fields",
+							"value": "Name",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[]"
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/sObjectCollection?compositeMethod=DELETE&allOrNoneFlag=true&ids=001J1000003FDniIAG,001J1000003FD66IAGGGG",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"sObjectCollection"
+							],
+							"query": [
+								{
+									"key": "compositeMethod",
+									"value": "DELETE"
+								},
+								{
+									"key": "allOrNoneFlag",
+									"value": "true"
+								},
+								{
+									"key": "entityType",
+									"value": "Account",
+									"disabled": true
+								},
+								{
+									"key": "ids",
+									"value": "001J1000003FDniIAG,001J1000003FD66IAGGGG"
+								},
+								{
+									"key": "fields",
+									"value": "Name",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "512"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 25 Jun 2024 19:33:49 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errorType\": \"SF-COMPOSITE:ALL_OR_NONE_OPERATION_ROLLED_BACK\",\n    \"success\": false,\n    \"errors\": [\n        [\n            {\n                \"statusCode\": \"ALL_OR_NONE_OPERATION_ROLLED_BACK\",\n                \"message\": \"Record rolled back because not all records were valid and the request was using AllOrNone header\",\n                \"fields\": []\n            }\n        ],\n        [\n            {\n                \"statusCode\": \"MALFORMED_ID\",\n                \"message\": \"bad id 001J1000003FD66IAGGGG\",\n                \"fields\": []\n            }\n        ]\n    ]\n}"
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "b37fdd9b-c684-4b53-8a02-535c09fcd589",
+		"name": "Salesforce Composite Batch Postman collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29157902",
+		"_collection_link": "https://lunar-shadow-219084.postman.co/workspace/demo-workspace~2da7a647-56a1-47d6-9d0c-9b759c4d76c3/collection/29157902-b37fdd9b-c684-4b53-8a02-535c09fcd589?action=share&source=collection_link&creator=29157902"
+	},
+	"item": [
+		{
+			"name": "Send composite batch request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"batchRequests\": [\n    {\n      \"method\": \"PATCH\",\n      \"url\": \"/v58.0/sobjects/Quote_841651__c/serialNumber__c/POD003\",\n      \"richInput\": {\n        \"accountId__c\": \"001J1000003DvZkIAK\",\n        \"contactId__c\": \"003J1000001FTuwIAG\",\n        \"description__c\": \"random description3\",\n        \"quoteToAddress__c\": \"some_address3\"\n      }\n    },\n    {\n      \"method\": \"GET\",\n      \"url\": \"/v58.0/sobjects/Quote_841651__c/a0GJ1000001HyqP?fields=accountId__c,contactId__c,quoteToAddress__c,description__c,serialNumber__c\"\n    },\n    {\n      \"method\": \"GET\",\n      \"url\": \"/services/data/v58.0/queryAll?q=Select+serialNumber__c+,+description__c+,+contactId__c+,+quoteToAddress__c+From+Quote_841651__c\"\n    },\n    {\n      \"method\": \"GET\",\n      \"url\": \"/services/data/v58.0/parameterizedSearch/?q=POD003&sobject=Quote_841651__c&Quote_841651__c.fields=serialNumber__c&Quote_841651__c.limit=10\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/demo/compositeBatchReq",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"demo",
+						"compositeBatchReq"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

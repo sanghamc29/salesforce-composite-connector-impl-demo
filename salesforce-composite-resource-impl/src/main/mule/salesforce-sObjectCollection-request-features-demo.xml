@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:salesforce-composite="http://www.mulesoft.org/schema/mule/salesforce-composite" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce-composite http://www.mulesoft.org/schema/mule/salesforce-composite/current/mule-salesforce-composite.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config_sObject_demo" doc:name="HTTP Listener config" doc:id="cd883177-a0ea-49e5-8fe5-ec9d2e1323bd" basePath="/">
+		<http:listener-connection host="0.0.0.0" port="8087" />
+	</http:listener-config>
+	<flow name="salesforce-sObjectCollection-flow" doc:id="c5fcd640-dd73-4b89-81da-6736b19199ae" >
+		<http:listener doc:name="Listener /api/sObjectCollection" doc:id="46bede67-e6e5-4917-88af-7458bda5321d" config-ref="HTTP_Listener_config_sObject_demo" path="/api/sObjectCollection">
+			<http:response statusCode="#[vars.httpStatus default 200]" />
+			<http:error-response statusCode="#[vars.httpStatus default 500]" >
+				<http:body ><![CDATA[#[output application/json --- payload]]]></http:body>
+			</http:error-response>
+		</http:listener>
+		<ee:transform doc:name="initialize composite request params,dymanmic transform" doc:id="4b6f9cb1-e1db-4e57-950c-82e43311f2cc" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="sObjectCollectionReq" ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-variable>
+				<ee:set-variable variableName="allOrNoneFlag" ><![CDATA[%dw 2.0
+output application/java
+---
+attributes.queryParams.allOrNoneFlag]]></ee:set-variable>
+				<ee:set-variable variableName="compositeMethod" ><![CDATA[%dw 2.0
+output application/java
+---
+attributes.queryParams.compositeMethod]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<set-variable value='#[%dw 2.0&#10;import * from dw::core::Strings&#10;output application/java&#10;---&#10;"dwl/sObjectCollection"++"-"++ vars.compositeMethod++"-Request.dwl"]' doc:name="set transformation name dynamically" doc:id="91cfa309-1e73-4d31-a46f-0ee779f8394f" variableName="dwlRequestMapFile"/>
+		<choice doc:name="Choice" doc:id="fa7b3b00-17e0-400c-8a3b-dbe952609bbc" >
+			<when expression="#[vars.compositeMethod == 'GET']">
+				<ee:transform doc:name="retrieve-id-field-for-get-request" doc:id="ce8fd261-f313-4291-a882-34b511008d1e">
+					<ee:message>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="varRequestIds" ><![CDATA[%dw 2.0
+output application/java
+---
+attributes.queryParams.ids splitBy ","]]></ee:set-variable>
+						<ee:set-variable variableName="varResponseFields" ><![CDATA[%dw 2.0
+output application/java
+---
+attributes.queryParams.fields]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<salesforce-composite:get-sobject-collections doc:name="Get sobject collections" doc:id="44796175-e8fe-4574-b58f-7e621d6c23f6" type="#[attributes.queryParams.entityType]" config-ref="Salesforce_Composite_Config_demo1" ids="#[vars.varRequestIds]">
+					<salesforce-composite:fields >
+						<salesforce-composite:field value="#[vars.varResponseFields]" />
+					</salesforce-composite:fields>
+				</salesforce-composite:get-sobject-collections>
+			</when>
+			<when expression="#[vars.compositeMethod == 'UPSERT']">
+				<ee:transform doc:name="prepare-sfdc-sobject-collection-request" doc:id="1d619066-a3fb-4c5e-812d-41ba1321e720">
+					<ee:message>
+						<ee:set-payload resource="dwl/sObjectCollection-UPSERT-Request.dwl" />
+					</ee:message>
+				</ee:transform>
+				<salesforce-composite:upsert-sobject-collections doc:name="Upsert sobject collections" doc:id="164a0052-56b3-4991-b7f4-d4306ba93dce" type="#[attributes.queryParams.entityType]" externalFieldName="#[attributes.queryParams.externalFieldName]" config-ref="Salesforce_Composite_Config_demo1"/>
+			</when>
+			<when expression="#[vars.compositeMethod == 'CREATE']">
+				<ee:transform doc:name="prepare-sfdc-sobject-collection-request" doc:id="15c504b2-3a44-456a-bbd2-866f1e955df0">
+			<ee:message>
+						<ee:set-payload resource="dwl/sObjectCollection-CREATE-Request.dwl" />
+			</ee:message>
+		</ee:transform>
+				<salesforce-composite:create-sobject-collections doc:name="Create sobject collections" doc:id="c1512ca3-aa60-4997-8213-2752b6f5d6eb" config-ref="Salesforce_Composite_Config_demo1"/>
+			</when>
+			<when expression="#[vars.compositeMethod == 'DELETE']">
+				<ee:transform doc:name="prepare-sfdc-sobject-collection-request" doc:id="e9e0c2c6-9109-4dc2-ae7a-ee50251bae17">
+			<ee:message>
+			</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="varRequestIds" ><![CDATA[%dw 2.0
+output application/java
+---
+attributes.queryParams.ids splitBy ","]]></ee:set-variable>
+					</ee:variables>
+		</ee:transform>
+				<salesforce-composite:delete-sobject-collections doc:name="Delete sobject collections" doc:id="b8707c41-65df-4a5f-8878-7287e61b629c" allOrNone="#[vars.allOrNoneFlag]" config-ref="Salesforce_Composite_Config_demo1" ids="#[vars.varRequestIds]">
+				</salesforce-composite:delete-sobject-collections>
+			</when>
+			<otherwise>
+				<raise-error doc:name="Raise error" doc:id="cd883177-a0ea-49e5-8fe5-ec9d2e1323bd" type="CUSTOM-ERROR:REQUEST-METHOD-NOT-FOUND"/>
+			</otherwise>
+		</choice>
+		<choice doc:name="CHECK IF Error?" doc:id="edcf371a-57e3-4332-a04e-dcfdb109250e" >
+			<when expression="#[(vars.allOrNoneFlag ~= true) and sizeOf(flatten(payload.errors)) &gt; 0]" >
+				<raise-error doc:name="RAISE ERROR SF-COMPOSITE:ALL_OR_NONE_OPERATION_ROLLED_BACK" doc:id="d3f0ba21-45b3-4386-a41b-fdc58eb94d42" type="SF-COMPOSITE:ALL_OR_NONE_OPERATION_ROLLED_BACK" />
+			</when>
+		</choice>
+		<ee:transform doc:name="prepare-sfdc-sobject-collection-response" doc:id="e11d999a-043e-4a81-8fca-1e81896221c4">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d258ccde-3842-47d0-90b7-23d11c44522d" type="SALESFORCE-COMPOSITE:CONNECTIVITY, SALESFORCE-COMPOSITE:INVALID_SESSION, SALESFORCE-COMPOSITE:RETRY_EXHAUSTED">
+				<ee:transform doc:name="handle connectivity error" doc:id="a8b4ee0e-fa96-4d5b-bce5-1e4e6fe66f6d" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	errorType: error.errorType.asString,
+	success: false,
+	errors: error.description
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+500]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b11b57a6-818c-46d4-b38d-20a6558ae44f" type="SF-COMPOSITE:ALL_OR_NONE_OPERATION_ROLLED_BACK">
+				<ee:transform doc:name="handle rollback error" doc:id="702a41ed-1339-40a5-a9fd-fc1bf5fb0b3c" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	errorType: error.errorType.asString,
+	success: false,
+	errors: payload.errors
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+500]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="8a099d36-c037-43f2-9325-e6f6bc4d46bd" type="SALESFORCE-COMPOSITE:UNKNOWN">
+				<ee:transform doc:name="handle composite unknown error" doc:id="69ab95f5-8d90-4f3a-8dc0-fb3c8b278240">
+					<ee:message>
+						<ee:set-payload><![CDATA[output application/json 
+---
+{
+	success:false,
+	errorType: error.errorType.asString,
+	errors: read((error.description scan "response body: ([\d\D\w\W\s\S]*)" as Regex)[0][1] default [])
+
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable variableName="httpStatus"><![CDATA[output application/json 
+--- 
+(error.description scan "Invalid status code: ([\d]+)" as Regex)[0][1] default 500]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="ae6da119-c5ab-482f-925a-a55739de9a50" >
+				<ee:transform doc:name="handle unknown error" doc:id="9616c855-222f-4e9e-823e-e0df23860ace" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[output application/json 
+---
+{
+	success:false,
+	errorType: error.errorType.asString,
+	errors: error.description
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[output application/json 
+--- 
+(error.description scan "Invalid status code: ([\d]+)" as Regex)[0][1] default 500]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>
