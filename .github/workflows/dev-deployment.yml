@@ -1,0 +1,42 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  mule-runtime-setup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+
+    - name: Download Mule Runtime
+      run: |
+        wget https://s3.amazonaws.com/mule-artifact-repository/releases/mule-runtime/4.7.0/mule-runtime-standalone-4.7.0.tar.gz
+        tar -xzf mule-runtime-standalone-4.7.0.tar.gz
+        mv mule-runtime-standalone-4.7.0 mule-runtime
+
+    - name: Set up environment variables
+      run: echo "MULE_HOME=$(pwd)/mule-runtime" >> $GITHUB_ENV
+
+    - name: Deploy Mule Application
+      run: |
+        $MULE_HOME/bin/mule -M-Dmule.env=dev
+        # Add commands to deploy your application if needed
+        # For example, copy your Mule application to the Mule deployment directory
+        # cp path/to/your-app.jar $MULE_HOME/apps/
